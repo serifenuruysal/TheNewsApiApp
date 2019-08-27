@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity(), SourceAdapterInterface {
 
         rv_source_list.layoutManager = LinearLayoutManager(this)
 
+        //Observe Live Data
         viewModel.sourceList.observe(this, Observer { sourceList ->
             rv_source_list.adapter = sourceList?.let { SourceAdapter(it, this, this) }
         })
