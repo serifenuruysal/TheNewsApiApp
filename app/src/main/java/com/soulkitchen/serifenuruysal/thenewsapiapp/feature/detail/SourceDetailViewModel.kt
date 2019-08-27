@@ -22,6 +22,15 @@ class SourceDetailViewModel() : ViewModel() {
 
     fun loadPosts(sourceId: String) {
         val newsApiRepository = NewsApiRepository()
+//        Observable.interval(60, TimeUnit.SECONDS, Schedulers.io()).map ({
+//            newsApiRepository.getTopHeadLines(sourceId) })
+//            .subscribe( { articleRes ->
+//                articleList.postValue(articleRes.articles)
+//
+//            },
+//                { error -> Log.d("getArticle error", error.message) })
+
+
         subscription = newsApiRepository.getTopHeadLines(sourceId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

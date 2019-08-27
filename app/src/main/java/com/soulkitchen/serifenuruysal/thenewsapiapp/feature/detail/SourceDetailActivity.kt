@@ -10,9 +10,13 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import com.soulkitchen.serifenuruysal.thenewsapiapp.R
 import com.soulkitchen.serifenuruysal.thenewsapiapp.data.model.Article
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_source_detail.*
+import java.util.concurrent.TimeUnit
 
 class SourceDetailActivity : AppCompatActivity(), NewsAdapterInterface {
 
@@ -43,12 +47,21 @@ class SourceDetailActivity : AppCompatActivity(), NewsAdapterInterface {
 
         }
         rv_news_list.layoutManager = LinearLayoutManager(this)
+
         viewModel.articleList.observe(this, Observer { articleList ->
             rv_news_list.adapter =
                 articleList?.let { NewsAdapter(it, this, this) }
         })
 
         viewModel.loadPosts(sourceId)
+
+        //Update news every 60 seconds periodically
+        Observable.interval(60, TimeUnit.SECONDS, Schedulers.io())
+            .subscribe({
+                viewModel.loadPosts(sourceId)
+                Log.d("SourceDetailActivity", "news updated")
+            })
+
 
     }
 
