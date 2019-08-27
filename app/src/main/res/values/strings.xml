@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TheNewsApiApp</string>
+    <string name="title_activity_source_detail">SourceDetailActivity</string>
+</resources>
